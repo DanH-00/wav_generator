@@ -1,16 +1,20 @@
 #include "header_generator.h"
 
+#include "wav_generator_defines.h"
+
 
 constexpr uint32_t kChunkDescriptorSize = 12;
 constexpr uint32_t kFormatSubChunkHeaderSize = 8;
 constexpr uint32_t kFormatSubChunkSize = 16;
 constexpr uint32_t kDataSubChunkHeaderSize = 8;
 
-constexpr uint32_t kSampleRateHz = 48000;
 constexpr uint16_t kNumChannels = 1;
 constexpr uint16_t kBitsPerSample = 24;
 
 constexpr uint16_t kPcmFormat = 1;
+
+#define APPEND_UINT16(value) AppendUnsigned(static_cast<uint16_t>(value))
+#define APPEND_UINT32(value) AppendUnsigned(static_cast<uint32_t>(value))
 
 HeaderGenerator::HeaderGenerator(const std::shared_ptr<const Options>& options)
   : options_(options) {
@@ -19,19 +23,19 @@ HeaderGenerator::HeaderGenerator(const std::shared_ptr<const Options>& options)
 
 void HeaderGenerator::CreateHeader() {
   AppendString("RIFF");
-  AppendUnsigned(CalculateChunkSize());
+  APPEND_UINT32(CalculateChunkSize());
   AppendString("WAVE");
   AppendString("fmt ");
-  AppendUnsigned(kFormatSubChunkSize);
-  AppendUnsigned(kPcmFormat);
-  AppendUnsigned(kNumChannels);
-  AppendUnsigned(kSampleRateHz);
-  AppendUnsigned(CalculateByteRate());
-  AppendUnsigned(CalculateBlockAlign());
-  AppendUnsigned(kBitsPerSample);
+  APPEND_UINT32(kFormatSubChunkSize);
+  APPEND_UINT16(kPcmFormat);
+  APPEND_UINT16(kNumChannels);
+  APPEND_UINT32(kSampleRateHz);
+  APPEND_UINT32(CalculateByteRate());
+  APPEND_UINT16(CalculateBlockAlign());
+  APPEND_UINT16(kBitsPerSample);
 
   AppendString("data");
-  AppendUnsigned(CalculateDataSubChunkSize());
+  APPEND_UINT32(CalculateDataSubChunkSize());
 }
 
 void HeaderGenerator::AppendString(const std::string& string) {
