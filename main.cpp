@@ -3,7 +3,12 @@
 #include <vector>
 
 #include "file_writer.h"
+#include "header_generator.h"
 #include "options.h"
+
+void AppendVector(std::vector<uint8_t>& dest, const std::vector<uint8_t>& src) {
+  dest.insert(dest.end(), src.begin(), src.end());
+}
 
 int main(int argc, char* argv[]) {
   std::shared_ptr<const Options>options;
@@ -18,8 +23,13 @@ int main(int argc, char* argv[]) {
   std::cout << "Writing a " << options->GetLengthS() << " second WAV file with a sine wave of frequency "
             << options->GetFrequencyHz() << " Hz to \"" << options->GetOutputFilepath() << "\""  << std::endl;
 
-  const std::vector<uint8_t> test_bytes = { 0x00, 0x01, 0x02, 0x03, 0x04 };
+  std::vector<uint8_t> output_bytes;
+
+  const HeaderGenerator header_generator(options);
+  AppendVector(output_bytes, header_generator.GetHeader());
+
+
   FileWriter file_writer(options->GetOutputFilepath());
-  file_writer.Write(test_bytes);
+  file_writer.Write(output_bytes);
   return 0;
 }

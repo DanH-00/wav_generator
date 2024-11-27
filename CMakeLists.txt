@@ -12,6 +12,7 @@ pkg_check_modules(GLIB REQUIRED glib-2.0 IMPORTED_TARGET)
 
 add_executable(${PROJECT_NAME}
     file_writer.cpp
+    header_generator.cpp
     main.cpp
     options.cpp)
 
