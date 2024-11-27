@@ -9,7 +9,6 @@ constexpr uint32_t kFormatSubChunkSize = 16;
 constexpr uint32_t kDataSubChunkHeaderSize = 8;
 
 constexpr uint16_t kNumChannels = 1;
-constexpr uint16_t kBitsPerSample = 24;
 
 constexpr uint16_t kPcmFormat = 1;
 
@@ -72,5 +71,5 @@ uint32_t HeaderGenerator::CalculateByteRate() {
 }
 
 uint16_t HeaderGenerator::CalculateBlockAlign() {
-  return kNumChannels * (kBitsPerSample / 8);
+  return kNumChannels * (kBytesPerSample);
 }
