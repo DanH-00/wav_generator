@@ -14,7 +14,8 @@ add_executable(${PROJECT_NAME}
     file_writer.cpp
     header_generator.cpp
     main.cpp
-    options.cpp)
+    options.cpp
+    sine_wave_generator.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     PkgConfig::GLIB)

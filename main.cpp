@@ -5,6 +5,7 @@
 #include "file_writer.h"
 #include "header_generator.h"
 #include "options.h"
+#include "sine_wave_generator.h"
 
 void AppendVector(std::vector<uint8_t>& dest, const std::vector<uint8_t>& src) {
   dest.insert(dest.end(), src.begin(), src.end());
@@ -28,6 +29,8 @@ int main(int argc, char* argv[]) {
   const HeaderGenerator header_generator(options);
   AppendVector(output_bytes, header_generator.GetHeader());
 
+  const SineWaveGenerator sine_wave_generator(options);
+  AppendVector(output_bytes, sine_wave_generator.GetSineWave());
 
   FileWriter file_writer(options->GetOutputFilepath());
   file_writer.Write(output_bytes);
