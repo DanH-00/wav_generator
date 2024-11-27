@@ -1,6 +1,8 @@
 #include <iostream>
 #include <memory>
+#include <vector>
 
+#include "file_writer.h"
 #include "options.h"
 
 int main(int argc, char* argv[]) {
@@ -15,5 +17,9 @@ int main(int argc, char* argv[]) {
 
   std::cout << "Writing a " << options->GetLengthS() << " second WAV file with a sine wave of frequency "
             << options->GetFrequencyHz() << " Hz to \"" << options->GetOutputFilepath() << "\""  << std::endl;
+
+  const std::vector<uint8_t> test_bytes = { 0x00, 0x01, 0x02, 0x03, 0x04 };
+  FileWriter file_writer(options->GetOutputFilepath());
+  file_writer.Write(test_bytes);
   return 0;
 }
