@@ -12,8 +12,10 @@ public:
 
 private:
   void GenerateSineWave();
+  double CalculateRampGain(int sample_number) const;
   void AppendSample(const int32_t& sample);
 
-  std::vector<uint8_t> sine_wave_bytes_;
   std::shared_ptr<const Options> options_;
+  const int number_of_samples_;
+  std::vector<uint8_t> sine_wave_bytes_;
 };
