@@ -48,7 +48,7 @@ template<typename T>
 void HeaderGenerator::AppendUnsigned(const T value) {
   static_assert(std::is_unsigned_v<T>, "T must be an unsigned integer type");
 
-  for (int i = sizeof(T) - 1; i >= 0; i--) {
+  for (int i = 0; i < sizeof(T); i++) {
     uint8_t byte = (value >> (8 * i)) & 0xFF;
     header_.push_back(byte);
   }
